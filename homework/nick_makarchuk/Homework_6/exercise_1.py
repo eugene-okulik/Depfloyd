@@ -1,14 +1,16 @@
-texts = 'Etiam tincidunt neque erat, quis molestie enim imperdiet vel. Integer urna nisl, facilisis vitae semper at, dignissim vitae libero'
+texts = (
+    'Etiam tincidunt neque erat, quis molestie enim imperdiet vel. '
+    'Integer urna nisl, facilisis vitae semper at, dignissim vitae libero'
+)
 
 words = texts.split()
 marks = '.,'
 modified_words = []
 
-
 for word in words:
     punctuation = ''
     core = ''
-    
+
     for char in word:
         if char in marks:
             punctuation += char
