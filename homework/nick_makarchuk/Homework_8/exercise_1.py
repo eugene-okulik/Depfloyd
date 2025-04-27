@@ -2,7 +2,7 @@ import random
 
 
 salary = int(input("Enter your salary: "))
-original_salary = salary  
+original_salary = salary
 bonus = random.choice([True, False])
 
 if bonus:
