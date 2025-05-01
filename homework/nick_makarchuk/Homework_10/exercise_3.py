@@ -34,7 +34,8 @@ def calc(first, second, operation):
 try:
     a = float(input("Введите первое число: "))
     b = float(input("Введите второе число: "))
-    result = calc(a, b)  
+    result = calc(a, b)
     print("Результат:", result)
 except ValueError:
     print("Ошибка: введите корректные числа.")
+    
