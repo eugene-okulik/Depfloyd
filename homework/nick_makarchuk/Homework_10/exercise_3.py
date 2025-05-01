@@ -38,4 +38,3 @@ try:
     print("Результат:", result)
 except ValueError:
     print("Ошибка: введите корректные числа.")
-    
