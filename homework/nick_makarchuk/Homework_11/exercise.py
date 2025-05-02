@@ -27,7 +27,8 @@ books = [
 for book in books:
     print(book)
 
-class SchoolBooks(Book):
+
+class SchoolBooks(Book):  # Добавлена дополнительная пустая строка перед этим классом
     def __init__(self, title, author, page_count, isbn, reserved: bool, subject, class_room, exercise: bool):
         super().__init__(title, author, page_count, isbn, reserved)
         self.subject = subject
@@ -35,7 +36,10 @@ class SchoolBooks(Book):
         self.exercise = exercise
 
     def __str__(self):
-        base = f"Название: {self.title}, Автор: {self.author}, страниц: {self.page_count}, предмет: {self.subject}, класс: {self.class_room}"
+        base = (
+            f"Название: {self.title}, Автор: {self.author}, страниц: {self.page_count}, "
+            f"предмет: {self.subject}, класс: {self.class_room}"
+        )
         return base + (", зарезервирована" if self.reserved else "")
 
 
