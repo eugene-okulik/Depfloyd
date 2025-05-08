@@ -15,9 +15,11 @@ class Rose(Flower):
     def __init__(self, color, stem_length, price, freshness):
         super().__init__("Роза", color, stem_length, price, freshness, lifespan_days=7)
 
+
 class Tulip(Flower):
     def __init__(self, color, stem_length, price, freshness):
         super().__init__("Тюльпан", color, stem_length, price, freshness, lifespan_days=5)
+
 
 class Chamomile(Flower):
     def __init__(self, color, stem_length, price, freshness):
