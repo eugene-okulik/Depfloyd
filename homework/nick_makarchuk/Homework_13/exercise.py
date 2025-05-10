@@ -19,7 +19,6 @@ with open(file_path, 'r', encoding='utf-8') as file:
             date_str, action = rest.split(' - ', 1)
             dt = datetime.fromisoformat(date_str)
 
-
             if 'на неделю позже' in action:
                 result = dt + timedelta(weeks=1)
                 print(f"{date_str} -> через неделю: {result}")
