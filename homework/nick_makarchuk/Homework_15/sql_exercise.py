@@ -62,7 +62,7 @@ conn.commit()
 
 # 7. Получаем и печатаем ВСЕ ДАННЫЕ о студенте одним запросом
 query = """
-SELECT 
+SELECT
     s.id AS student_id,
     s.name,
     s.second_name,
