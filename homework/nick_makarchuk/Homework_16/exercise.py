@@ -44,9 +44,11 @@ JOIN subjets sub ON l.subject_id = sub.id;
 
 db_data = cursor.fetchall()
 
+
 # Нормализация
 def normalize(row):
     return {k.strip(): str(v).strip() for k, v in row.items()}
+
 
 normalized_db = [normalize(row) for row in db_data]
 normalized_csv = [normalize(row) for row in csv_data]
