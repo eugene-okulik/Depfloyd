@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 
+
 def extract_snippet(line, search_text):
     words = line.strip().split()
     snippet = []
