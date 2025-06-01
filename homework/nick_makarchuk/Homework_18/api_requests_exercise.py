@@ -122,8 +122,10 @@ def delete_object(object_id=None):
             print(f"Object {object_id} successfully deleted (404 when trying to get)")
         else:
             print(f"Warning: Object {object_id} still exists after deletion")
-    except Exception as e:
-        print(f"Object {object_id} successfully deleted")
+    except requests.exceptions.RequestException:
+        print(f"Network error when checking deletion")
+    except Exception:
+        print(f"Unexpected error when checking deletion")
 
     return object_id
 
