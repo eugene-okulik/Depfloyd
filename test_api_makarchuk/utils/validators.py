@@ -18,4 +18,3 @@ def validate_object_list(data):
     assert isinstance(data, dict), "Response must be dict"
     assert "data" in data, "'data' missing in response"
     assert isinstance(data["data"], list), "'data' is not a list"
-
