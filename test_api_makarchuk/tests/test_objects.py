@@ -4,6 +4,7 @@ from utils.helpers import random_string
 from utils.validators import validate_object, validate_object_list
 import allure
 
+
 @pytest.fixture
 def test_object():
     # Создание объекта перед тестом
@@ -17,11 +18,13 @@ def test_object():
     # Очистка после теста
     ObjectsEndpoint.delete(obj_id)
 
+
 @allure.feature('Objects API')
 def test_get_all_objects():
     response = ObjectsEndpoint.get_all()
     assert response.status_code == 200
     validate_object_list(response.json())
+
 
 @allure.feature('Objects API')
 def test_create_object():
@@ -34,12 +37,14 @@ def test_create_object():
     validate_object(obj, expected_name=name, expected_color=color, expected_size=size)
     ObjectsEndpoint.delete(obj['id'])
 
+
 @allure.feature('Objects API')
 def test_get_one_object(test_object):
     response = ObjectsEndpoint.get_one(test_object)
     assert response.status_code == 200
     obj = response.json()
     validate_object(obj)
+
 
 @allure.feature('Objects API')
 def test_put_object(test_object):
@@ -51,6 +56,7 @@ def test_put_object(test_object):
     obj = response.json()
     validate_object(obj, expected_name=name, expected_color=color, expected_size=size)
 
+
 @allure.feature('Objects API')
 def test_patch_object(test_object):
     color = "yellow"
@@ -58,6 +64,7 @@ def test_patch_object(test_object):
     assert response.status_code == 200
     obj = response.json()
     validate_object(obj, expected_color=color)
+
 
 @allure.feature('Objects API')
 def test_delete_object():
