@@ -1,6 +1,7 @@
 import requests
 from constants import BASE_URL
 
+
 class ObjectsEndpoint:
     def __init__(self):
         self.base_url = f"{BASE_URL}/object"
@@ -34,8 +35,10 @@ class ObjectsEndpoint:
 
     def patch(self, object_id, color=None, size=None):
         data = {}
-        if color: data["color"] = color
-        if size: data["size"] = size
+        if color:
+            data["color"] = color
+        if size:
+            data["size"] = size
         self.last_response = requests.patch(f"{self.base_url}/{object_id}", json={"data": data})
         self.last_data = self.last_response.json()
         return self

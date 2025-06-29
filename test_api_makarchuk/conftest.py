@@ -3,9 +3,11 @@ from endpoints.objects import ObjectsEndpoint
 from constants import DEFAULT_COLOR, DEFAULT_SIZE
 from utils.helpers import random_string
 
+
 @pytest.fixture
 def endpoint():
     return ObjectsEndpoint()
+
 
 @pytest.fixture
 def temp_object(endpoint):
