@@ -1,80 +1,47 @@
-import pytest
-from endpoints.objects import ObjectsEndpoint
-from utils.helpers import random_string
-from utils.validators import validate_object, validate_object_list
 import allure
-
-
-@pytest.fixture
-def test_object():
-    # Создание объекта перед тестом
-    name = f"Temp_{random_string(5)}"
-    color = "red"
-    size = "small"
-    response = ObjectsEndpoint.create(name, color, size)
-    assert response.status_code == 200
-    obj_id = response.json()['id']
-    yield obj_id
-    # Очистка после теста
-    ObjectsEndpoint.delete(obj_id)
-
+from constants import (
+    DEFAULT_NAME, DEFAULT_COLOR, DEFAULT_SIZE,
+    UPDATED_NAME, UPDATED_COLOR, UPDATED_SIZE,
+    PATCHED_COLOR, DELETE_NAME, DELETE_COLOR, DELETE_SIZE
+)
 
 @allure.feature('Objects API')
-def test_get_all_objects():
-    response = ObjectsEndpoint.get_all()
-    assert response.status_code == 200
-    validate_object_list(response.json())
-
-
-@allure.feature('Objects API')
-def test_create_object():
-    name = f"Obj_{random_string(5)}"
-    color = "blue"
-    size = "large"
-    response = ObjectsEndpoint.create(name, color, size)
-    assert response.status_code == 200
-    obj = response.json()
-    validate_object(obj, expected_name=name, expected_color=color, expected_size=size)
-    ObjectsEndpoint.delete(obj['id'])
-
+def test_create_object(endpoint):
+    endpoint.create(DEFAULT_NAME, DEFAULT_COLOR, DEFAULT_SIZE)
+    endpoint.check_status_code(200)
+    endpoint.validate_object(expected_name=DEFAULT_NAME, expected_color=DEFAULT_COLOR, expected_size=DEFAULT_SIZE)
+    endpoint.delete(endpoint.last_data["id"])
 
 @allure.feature('Objects API')
-def test_get_one_object(test_object):
-    response = ObjectsEndpoint.get_one(test_object)
-    assert response.status_code == 200
-    obj = response.json()
-    validate_object(obj)
-
+def test_get_all_objects(endpoint):
+    endpoint.get_all()
+    endpoint.check_status_code(200)
+    endpoint.validate_object_list()
 
 @allure.feature('Objects API')
-def test_put_object(test_object):
-    name = f"Updated_{random_string(5)}"
-    color = "green"
-    size = "medium"
-    response = ObjectsEndpoint.put(test_object, name, color, size)
-    assert response.status_code == 200
-    obj = response.json()
-    validate_object(obj, expected_name=name, expected_color=color, expected_size=size)
-
+def test_get_one_object(endpoint, temp_object):
+    endpoint.get_one(temp_object)
+    endpoint.check_status_code(200)
+    endpoint.validate_object()
 
 @allure.feature('Objects API')
-def test_patch_object(test_object):
-    color = "yellow"
-    response = ObjectsEndpoint.patch(test_object, color=color)
-    assert response.status_code == 200
-    obj = response.json()
-    validate_object(obj, expected_color=color)
-
+def test_put_object(endpoint, temp_object):
+    endpoint.put(temp_object, UPDATED_NAME, UPDATED_COLOR, UPDATED_SIZE)
+    endpoint.check_status_code(200)
+    endpoint.validate_object(expected_name=UPDATED_NAME, expected_color=UPDATED_COLOR, expected_size=UPDATED_SIZE)
 
 @allure.feature('Objects API')
-def test_delete_object():
-    name = f"Del_{random_string(5)}"
-    color = "pink"
-    size = "small"
-    response = ObjectsEndpoint.create(name, color, size)
-    assert response.status_code == 200
-    obj_id = response.json()['id']
-    del_response = ObjectsEndpoint.delete(obj_id)
-    assert del_response.status_code == 200
-    get_response = ObjectsEndpoint.get_one(obj_id)
-    assert get_response.status_code == 404
+def test_patch_object(endpoint, temp_object):
+    endpoint.patch(temp_object, color=PATCHED_COLOR)
+    endpoint.check_status_code(200)
+    endpoint.validate_object(expected_color=PATCHED_COLOR)
+
+@allure.feature('Objects API')
+def test_delete_object(endpoint):
+    endpoint.create(DELETE_NAME, DELETE_COLOR, DELETE_SIZE)
+    endpoint.check_status_code(200)
+    obj_id = endpoint.last_data["id"]
+    endpoint.delete(obj_id)
+    endpoint.check_status_code(200)
+    endpoint.get_one(obj_id)
+    endpoint.check_status_code(404)

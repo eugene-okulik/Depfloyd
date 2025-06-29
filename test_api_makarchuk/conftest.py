@@ -1,20 +1,19 @@
 import pytest
+from endpoints.objects import ObjectsEndpoint
+from constants import DEFAULT_COLOR, DEFAULT_SIZE
+from utils.helpers import random_string
 
+@pytest.fixture
+def endpoint():
+    return ObjectsEndpoint()
 
-def pytest_configure(config):
-    config.addinivalue_line("markers", "critical: marks tests as critical (run these first)")
-    config.addinivalue_line("markers", "medium: marks tests as medium priority")
-
-
-def pytest_collection_modifyitems(config, items):
-    items.sort(key=lambda item: (
-        0 if item.get_closest_marker("critical") else
-        1 if item.get_closest_marker("medium") else 2
-    ))
-
-
-pytest.filterwarnings = [
-    "ignore::urllib3.exceptions.InsecureRequestWarning",
-    "ignore::DeprecationWarning",
-    "ignore::PendingDeprecationWarning"
-]
+@pytest.fixture
+def temp_object(endpoint):
+    """Создать объект и удалить после теста."""
+    name = f"Temp_{random_string(5)}"
+    color = DEFAULT_COLOR
+    size = DEFAULT_SIZE
+    endpoint.create(name, color, size).check_status_code(200)
+    obj_id = endpoint.last_data["id"]
+    yield obj_id
+    endpoint.delete(obj_id)
