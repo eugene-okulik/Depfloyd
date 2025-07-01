@@ -34,10 +34,14 @@ class ObjectsEndpoint:
         return self
 
     def patch(self, object_id, color=None, size=None):
-        data = {}
-        if color:
+        current_obj = self.get_one(object_id).last_data
+        data = {
+            "color": current_obj["data"]["color"],
+            "size": current_obj["data"]["size"]
+        }
+        if color is not None:
             data["color"] = color
-        if size:
+        if size is not None:
             data["size"] = size
         self.last_response = requests.patch(f"{self.base_url}/{object_id}", json={"data": data})
         self.last_data = self.last_response.json()
@@ -60,11 +64,12 @@ class ObjectsEndpoint:
     def validate_object(self, expected_name=None, expected_color=None, expected_size=None):
         obj = self.last_data
         if expected_name is not None:
-            assert obj["name"] == expected_name
+            assert obj["name"] == expected_name, f"Expected name {expected_name}, got {obj['name']}"
         if expected_color is not None:
-            assert obj["data"]["color"] == expected_color
+            assert obj["data"][
+                       "color"] == expected_color, f"Expected color {expected_color}, got {obj['data']['color']}"
         if expected_size is not None:
-            assert obj["data"]["size"] == expected_size
+            assert obj["data"]["size"] == expected_size, f"Expected size {expected_size}, got {obj['data']['size']}"
 
     def check_status_not_found(self):
         assert self.last_response.status_code == 404, (

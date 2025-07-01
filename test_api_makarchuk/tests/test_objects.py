@@ -37,17 +37,22 @@ def test_put_object(endpoint, temp_object):
 
 @allure.feature('Objects API')
 def test_patch_object(endpoint, temp_object):
+    original_object = endpoint.get_one(temp_object)
+    original_name = original_object.last_data["name"]
+    original_size = original_object.last_data["data"]["size"]
     endpoint.patch(temp_object, color=PATCHED_COLOR)
     endpoint.check_status_code(200)
     endpoint.validate_object(expected_color=PATCHED_COLOR)
+    updated_object = endpoint.get_one(temp_object)
+    endpoint.check_status_code(200)
+    endpoint.validate_object(expected_name=original_name,
+                             expected_color=PATCHED_COLOR,
+                             expected_size=original_size)
 
 
 @allure.feature('Objects API')
-def test_delete_object(endpoint):
-    endpoint.create(DELETE_NAME, DELETE_COLOR, DELETE_SIZE)
+def test_delete_object(endpoint, temp_object):
+    endpoint.delete(temp_object)
     endpoint.check_status_code(200)
-    obj_id = endpoint.last_data["id"]
-    endpoint.delete(obj_id)
-    endpoint.check_status_code(200)
-    endpoint.get_one(obj_id)
+    endpoint.get_one(temp_object)
     endpoint.check_status_code(404)
