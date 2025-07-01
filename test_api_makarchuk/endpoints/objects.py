@@ -66,7 +66,7 @@ class ObjectsEndpoint:
         if expected_name is not None:
             assert obj["name"] == expected_name, f"Expected name {expected_name}, got {obj['name']}"
         if expected_color is not None:
-            assert obj["data"]["color"] == expected_color,\
+            assert obj["data"]["color"] == expected_color, \
                 f"Expected color {expected_color}, got {obj['data']['color']}"
         if expected_size is not None:
             assert obj["data"]["size"] == expected_size, f"Expected size {expected_size}, got {obj['data']['size']}"
