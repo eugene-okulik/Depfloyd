@@ -43,7 +43,7 @@ def test_patch_object(endpoint, temp_object):
     endpoint.patch(temp_object, color=PATCHED_COLOR)
     endpoint.check_status_code(200)
     endpoint.validate_object(expected_color=PATCHED_COLOR)
-    updated_object = endpoint.get_one(temp_object)
+    endpoint.get_one(temp_object)
     endpoint.check_status_code(200)
     endpoint.validate_object(expected_name=original_name,
                              expected_color=PATCHED_COLOR,
