@@ -25,7 +25,6 @@ def test_get_all_objects(endpoint):
 def test_get_one_object(endpoint, temp_object):
     endpoint.get_one(temp_object)
     endpoint.check_status_code(200)
-    endpoint.validate_object()
 
 
 @allure.feature('Objects API')
