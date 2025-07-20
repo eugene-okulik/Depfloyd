@@ -3,8 +3,10 @@ import random
 import string
 import json
 
+
 def random_string(length=8):
     return ''.join(random.choices(string.ascii_letters, k=length))
+
 
 class ApiProject(HttpUser):
 
