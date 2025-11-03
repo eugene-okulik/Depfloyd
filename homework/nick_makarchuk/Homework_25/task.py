@@ -29,7 +29,7 @@ def test_submit_form(driver):
 
 def test_filling_form(driver):
     driver.get('https://demoqa.com/automation-practice-form')
-    wait = WebDriverWait(driver, 5)  
+    wait = WebDriverWait(driver, 5)
     wait.until(EC.presence_of_element_located((By.ID, 'firstName')))
     first_name = driver.find_element(By.ID, 'firstName')
     first_name.send_keys('Nikolai')
