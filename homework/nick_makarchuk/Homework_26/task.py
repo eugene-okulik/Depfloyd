@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import pytest
+from time import sleep
 
 
 @pytest.fixture()
@@ -12,6 +13,7 @@ def driver():
     chrome_options = webdriver.ChromeOptions()
     chrome_driver = webdriver.Chrome(options=chrome_options)
     chrome_driver.maximize_window()
+    chrome_driver.implicitly_wait(2)
     yield chrome_driver
     chrome_driver.quit()
 
@@ -24,3 +26,9 @@ def test_tab(driver):
     actions.click(item)
     actions.key_up(Keys.CONTROL)
     actions.perform()
+    sleep(3)
+    tabs = driver.window_handles
+    driver.switch_to.window(tabs[1])
+    add_to_cart = driver.find_element(By.ID, 'add_to_cart')
+    add_to_cart.click()
+    sleep(3)
