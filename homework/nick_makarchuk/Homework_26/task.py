@@ -20,6 +20,7 @@ def driver():
 
 def test_tab(driver):
     driver.get('http://testshop.qa-practice.com/')
+    wait = WebDriverWait(driver, 5)
     item = driver.find_element(By.CSS_SELECTOR, 'a[href="/shop/customizable-desk-9"]')
     actions = ActionChains(driver)
     actions.key_down(Keys.CONTROL)
@@ -31,4 +32,7 @@ def test_tab(driver):
     driver.switch_to.window(tabs[1])
     add_to_cart = driver.find_element(By.ID, 'add_to_cart')
     add_to_cart.click()
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.btn-secondary')))
+    button_continue = driver.find_element(By.CSS_SELECTOR, 'button.btn-secondary')
+    button_continue.click()
     sleep(3)
