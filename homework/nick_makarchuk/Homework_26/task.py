@@ -48,7 +48,6 @@ def test_tab(driver):
 
 def test_popup(driver):
     driver.get('http://testshop.qa-practice.com/')
-    wait = WebDriverWait(driver, 10)
     actions = ActionChains(driver)
     busket_button = driver.find_element(By.CSS_SELECTOR, 'a.btn.btn-primary.a-submit')
     actions.move_to_element(busket_button)
